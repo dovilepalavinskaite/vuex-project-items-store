@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     addToCart() {
-      this.$store.state.itemsCounter++;
+      this.$store.commit('incrementCounter');
     }
   }
 }

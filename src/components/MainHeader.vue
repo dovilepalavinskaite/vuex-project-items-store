@@ -3,23 +3,25 @@
         <div class="logo">
             <h2>VuexShop</h2>
         </div>
-        <nav class="d-flex">
+        <nav v-if="userAuthentification" class="d-flex">
             <p @click="setActiveLink('products')" class="mr-3" :class="{'activated-link': activatedLink === 'products'}">Products</p>
             <div class="d-flex">
                 <p @click="setActiveLink('cart')" :class="{'activated-link': activatedLink === 'cart'}">Cart</p>
                 <div class="items-counter ml-2 text-center">
-                    {{ $store.state.itemsCounter }}
+                    {{ cartItemsCounter }}
                 </div>
             </div>
         </nav>
         <div>
-            <button class="mr-3 authentification-button py-2 px-4">Login</button>
-            <button class="authentification-button py-2 px-4">Logout</button>
+            <button v-if="!userAuthentification" @click="login" class="mr-3 authentification-button py-2 px-4">Login</button>
+            <button v-else @click="logout" class="authentification-button py-2 px-4">Logout</button>
         </div>
     </div>
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'MainHeader',
@@ -28,10 +30,19 @@ export default {
         activatedLink: 'products'
     }
   },
+  computed: {
+    ...mapGetters(['cartItemsCounter', 'userAuthentification'])
+  },
   methods: {
     setActiveLink(activeLink) {
         this.activatedLink = activeLink;
         this.$emit('activate-link', activeLink);
+    },
+    login() {
+        this.$store.dispatch('login');
+    },
+    logout() {
+        this.$store.dispatch('logout');
     }
   }
 }
