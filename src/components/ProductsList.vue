@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center align-items-center flex-column pt-5">
+    <div class="d-flex justify-content-center align-items-center flex-column py-5">
         <div v-for="(item, index) in itemsList" :key="index" class="mb-3 product-cart p-3">
             <div class="d-flex align-items-center">
                 <img :src="item.image" alt="Item image" class="item-img mr-2">
@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-              <button @click="addToCart" class="add-button py-1">Add to Cart</button>
+              <button @click="addToCart(item)" class="add-button py-1">Add to Cart</button>
             </div>
         </div>
     </div>
@@ -22,31 +22,41 @@ export default {
   name: 'ProductList',
   data() {
     return {
-        itemsList: [
-            {
-              item: 'Strawberries',
-              price: 7.99,
-              description: 'One kilo of juicy, Lithuanian strawberries!',
-              image: 'https://images.unsplash.com/photo-1653361800111-b667f269e497?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1814&q=80'
-          },
+      itemsList: [
           {
-            item: 'Pineapple',
-            price: 12.49,
-            description: 'Sweet pineapple from Vietnam',
-            image: 'https://images.unsplash.com/photo-1589820296156-2454bb8a6ad1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80'
-          },
-          {
-            item: 'Almonds',
-            price: 4.99,
-            description: '1/2 kilo of almonds in the jar',
-            image: 'https://images.unsplash.com/photo-1508779018996-601e37fa274e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80'
-          }
-        ]
+            id: 1,
+            item: 'Strawberries',
+            price: 7.99,
+            selectedQuantity: 0,
+            sum: 0,
+            description: 'One kilo of juicy, Lithuanian strawberries!',
+            image: 'https://images.unsplash.com/photo-1653361800111-b667f269e497?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1814&q=80'
+        },
+        {
+          id: 2,
+          item: 'Pineapple',
+          price: 12.49,
+          selectedQuantity: 0,
+          sum: 0,
+          description: 'Sweet pineapple from Vietnam',
+          image: 'https://images.unsplash.com/photo-1589820296156-2454bb8a6ad1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80'
+        },
+        {
+          id: 3,
+          item: 'Almonds',
+          price: 4.99,
+          selectedQuantity: 0,
+          sum: 0,
+          description: '1/2 kilo of almonds in the jar',
+          image: 'https://images.unsplash.com/photo-1508779018996-601e37fa274e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80'
+        }
+      ]
     }
   },
   methods: {
-    addToCart() {
+    addToCart(item) {
       this.$store.commit('incrementCounter');
+      this.$store.commit('addToUserCart', item);
     }
   }
 }
