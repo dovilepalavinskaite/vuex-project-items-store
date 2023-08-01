@@ -1,22 +1,22 @@
 <template>
-    <div class="d-flex justify-content-around mt-2">
-        <div class="logo">
-            <h2>VuexShop</h2>
-        </div>
-        <nav v-if="userAuthentification" class="d-flex">
-            <p @click="setActiveLink('products')" class="mr-3" :class="{'activated-link': activatedLink === 'products'}">Products</p>
-            <div class="d-flex">
-                <p @click="setActiveLink('cart')" :class="{'activated-link': activatedLink === 'cart'}">Cart</p>
-                <div class="items-counter ml-2 text-center">
-                    {{ cartItemsCounter }}
-                </div>
-            </div>
-        </nav>
-        <div>
-            <button v-if="!userAuthentification" @click="login" class="mr-3 authentification-button py-2 px-4">Login</button>
-            <button v-else @click="logout" class="authentification-button py-2 px-4">Logout</button>
-        </div>
+  <div class="d-flex justify-content-around flex-wrap align-items-center mt-2">
+    <div class="logo">
+        <h2>VuexShop</h2>
     </div>
+    <nav v-if="userAuthentification" class="d-flex">
+      <router-link userAuthentification to="/product-list" class="mr-3">Products</router-link>
+      <div class="d-flex">
+          <router-link to="/items-cart">Cart</router-link>
+          <div class="items-counter ml-2 text-center">
+              {{ cartItemsCounter }}
+          </div>
+      </div>
+    </nav>
+    <div>
+      <button v-if="!userAuthentification" @click="login" class="mr-3 authentification-button py-2 px-4">Login</button>
+      <button v-else @click="logout" class="authentification-button py-2 px-4">Logout</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -25,24 +25,15 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'MainHeader',
-  data() {
-    return {
-        activatedLink: 'products'
-    }
-  },
   computed: {
     ...mapGetters(['cartItemsCounter', 'userAuthentification'])
   },
   methods: {
-    setActiveLink(activeLink) {
-        this.activatedLink = activeLink;
-        this.$emit('activate-link', activeLink);
-    },
     login() {
-        this.$store.dispatch('login');
+      this.$store.dispatch('login');
     },
     logout() {
-        this.$store.dispatch('logout');
+      this.$store.dispatch('logout');
     }
   }
 }
@@ -51,37 +42,42 @@ export default {
 
 <style scopped>
 
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 .authentification-button {
-    border-radius: 30px;
-    border: 2px solid #468b97;
-    color: #468b97;
-    font-size: 14px;
-    background: transparent;
-    transition: 1s;
+  border-radius: 30px;
+  border: 2px solid #468b97;
+  color: #468b97;
+  font-size: 14px;
+  background: transparent;
+  transition: 1s;
 }
 
 .authentification-button:hover {
-    background: #468b97;
-    color: #fff;
+  background: #468b97;
+  color: #fff;
 }
 
-.activated-link, nav p:hover {
-    color: #1d5d9b;
-    font-weight: 600;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
+a:active, a:hover, a.router-link-active {
+  color: #1d5d9b;
+  font-weight: 600;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 }
 
 .items-counter {
-    background: #1d5d9b;
-    border-radius: 30px;
-    width: 50px;
-    height: 25px;
-    color: #fff;
-}
-
-nav p {
-    cursor: pointer;
+  background: #1d5d9b;
+  border-radius: 30px;
+  width: 50px;
+  height: 25px;
+  color: #fff;
 }
 
 </style>
